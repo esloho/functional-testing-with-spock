@@ -1,2 +1,2 @@
 # functional-testing-with-spock
-Demo project for functional testing with Spock and Spring Boot
+Example of functional testing with Spock and Geb for a Spring Boot application
