@@ -8,7 +8,7 @@
 
 <h1>Product List</h1>
 
-<div>
+<div class="label">
     <span>Name</span>
     <span>Available</span>
 </div>
@@ -22,7 +22,10 @@
     <div><span>No available products</span></div>
 </#list>
 
-<a class="link" href="/hello">Hello</a>
+<div>
+    <a id="hello-link" href="/hello">Hello</a>
+    <a id="new-link" href="/new">New product</a>
+</div>
 
 </body>
 </html>

@@ -13,7 +13,7 @@ class ProductRepositorySpec extends Specification {
 
     def "checking init data"() {
         given:
-        repository.save(new Product("dummy name", 10));
+        repository.save(new Product("dummy title", "Book", 10));
 
         when:
         final List<Product> products = repository.findAll();

@@ -13,7 +13,7 @@ class ProductsReportingSpec extends GebReportingSpec {
         to ProductsPage
 
         then:
-        heading == "Product Lists"
+        at ProductsPage
     }
 
 }

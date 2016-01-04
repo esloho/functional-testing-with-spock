@@ -16,7 +16,7 @@ class ProductsSpec extends Specification {
         browser.to ProductsPage
 
         then:
-        browser.page.heading == "Product List"
+        browser.page.heading.text() == "Product List"
     }
 
 }

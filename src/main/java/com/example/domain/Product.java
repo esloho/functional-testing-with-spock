@@ -11,8 +11,8 @@ public class Product {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private final Integer id;
-
     private String name;
+    private String category;
     private Integer amount;
 
     /**
@@ -22,14 +22,15 @@ public class Product {
         id = null;
     }
 
-    Product(Integer id, String name, Integer amount) {
+    Product(Integer id, String name, String category, Integer amount) {
         this.id = id;
         this.name = name;
+        this.category = category;
         this.amount = amount;
     }
 
-    public Product(String name, Integer amount) {
-        this(null, name, amount);
+    public Product(String name, String category, Integer amount) {
+        this(null, name, category, amount);
     }
 
     public Integer getId() {
@@ -42,6 +43,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Integer getAmount() {
@@ -61,6 +70,7 @@ public class Product {
 
         return id.equals(other.id)
                 && name.equals(other.name)
+                && category.equals(other.category)
                 && amount == other.amount;
 
     }
@@ -75,6 +85,7 @@ public class Product {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
                 ", amount=" + amount +
                 '}';
     }
