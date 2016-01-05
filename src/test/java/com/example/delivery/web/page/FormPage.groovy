@@ -11,11 +11,18 @@ class FormPage extends Page {
 
     static content = {
         heading { $("h1") }
+
         name { $("#name") }
         category { $(name: "category").module(Select) }
         amount { $("#amount") }
+
         save { $("#save-button") }
         cancel { $("#cancel-button") }
         reset { $("#reset-button") }
+
+        errors(required: false) { $(".error") }
+        mayNotBeEmptyError(required: false) {
+            errors.filter(text: contains("may not be empty"))
+        }
     }
 }

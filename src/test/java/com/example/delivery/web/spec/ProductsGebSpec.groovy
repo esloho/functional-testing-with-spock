@@ -2,6 +2,7 @@ package com.example.delivery.web.spec
 import com.example.Application
 import com.example.delivery.web.page.FormPage
 import com.example.delivery.web.page.ProductsPage
+import geb.driver.CachingDriverFactory
 import geb.spock.GebSpec
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
@@ -25,16 +26,15 @@ class ProductsGebSpec extends GebSpec {
     }
 
     def "should go from form to products if no errors"() {
-        when:
+        when: "go to the form page"
         to FormPage
 
-        then:
-        at FormPage
-
-        when:
+        and: "fill all fields correctly"
         name = "test product"
         category.selected = "1"
         amount = 10
+
+        and: "hit the save button"
         save.click()
 
         then:
@@ -42,17 +42,16 @@ class ProductsGebSpec extends GebSpec {
     }
 
     def "should go from form to products when cancel"() {
-        when:
+        when: "go to ProductsPage"
         to ProductsPage
+
+        and: "go to FormPage"
         to FormPage
 
-        then:
-        at FormPage
-
-        when:
+        and: "hit the cancel button"
         cancel.click()
 
-        then:
+        then: "back to the previous page"
         at ProductsPage
     }
 
@@ -60,16 +59,49 @@ class ProductsGebSpec extends GebSpec {
         when:
         to FormPage
 
-        then:
-        at FormPage
-
-        when: "reset the form"
+        and: "fill the name"
         name = "test"
+
+        and: "reset the form"
         reset.click()
 
         then: "name is empty again"
         at FormPage
         name == ""
+    }
+
+    def "should have errors in form when name is left empty"() {
+        when: "going to FormPage"
+        to FormPage
+
+        and: "name field is left empty"
+        category.selected = "1"
+        amount = 10
+        save.click()
+
+        then: "at FormPage with errors"
+        at FormPage
+        mayNotBeEmptyError.present
+
+        cleanup:
+        CachingDriverFactory.clearCache()
+    }
+
+    def "should have errors in form when category is not selected"() {
+        when: "go to FormPage"
+        to FormPage
+
+        and: "category field is not selected"
+        name = "test name"
+        amount = 10
+        save.click()
+
+        then: "at FormPage with errors"
+        at FormPage
+        mayNotBeEmptyError.present
+
+        cleanup:
+        CachingDriverFactory.clearCache()
     }
 
 }

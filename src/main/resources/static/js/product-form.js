@@ -11,7 +11,6 @@ $(function () {
 
     $saveButton.click(function (event) {
         event.preventDefault();
-        //$productForm.attr('action', '/new');
         $productForm.submit();
     });
 
