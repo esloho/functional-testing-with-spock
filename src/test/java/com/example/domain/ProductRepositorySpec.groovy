@@ -12,14 +12,17 @@ class ProductRepositorySpec extends Specification {
     private ProductRepository repository;
 
     def "checking init data"() {
-        given:
-        repository.save(new Product("dummy title", "Book", 10));
+        given: "a new element added to the empty repository"
+        final Product newProduct = repository.save(new Product("dummy title", "Book", 10));
 
-        when:
+        when: "asking to find all products"
         final List<Product> products = repository.findAll();
 
-        then:
-        products.size() == 4;
+        then: "number of stored products is 1"
+        products.size() == 1;
+
+        cleanup:
+        repository.delete(newProduct);
     }
 
 }

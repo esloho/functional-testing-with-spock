@@ -11,6 +11,7 @@ class ProductsPage extends Page {
     static content = {
         heading { $("h1") }
         new_product { $("#new-link") }
+        table_header { $("th") }
     }
 
 }

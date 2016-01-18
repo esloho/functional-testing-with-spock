@@ -2,23 +2,46 @@ package com.example.delivery.web.spec
 import com.example.Application
 import com.example.delivery.web.page.FormPage
 import com.example.delivery.web.page.ProductsPage
+import com.example.domain.Product
+import com.example.domain.ProductRepository
 import geb.driver.CachingDriverFactory
 import geb.spock.GebSpec
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 
+import javax.inject.Inject
+
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest     //this allows the test to start the app instead of doing it manually before running the test
 class ProductsGebSpec extends GebSpec {
 
-    def "should go from products page to form"() {
+    @Inject
+    private ProductRepository repository;
+
+    def "should have a table head at products page"() {
+        given:
+        final newProduct = repository.save(new Product("Product 1", "Category", 10));
+
         when:
         to ProductsPage
 
         then:
         at ProductsPage
 
-        when: "click new product link"
+        and: "table head has left aligning and 10px right padding"
+        table_header.css("text-align") == "left"
+        table_header.css("padding-right") == "10px"
+
+        cleanup:
+        repository.delete(newProduct);
+
+    }
+
+    def "should go from products page to form"() {
+        when:
+        to ProductsPage
+
+        and: "click new product link"
         new_product.click()
 
         then:
