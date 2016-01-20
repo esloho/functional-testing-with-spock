@@ -1,4 +1,4 @@
-package com.example.delivery.web;
+package com.example.standard;
 
 import com.example.domain.Product;
 import com.example.domain.ProductRepository;

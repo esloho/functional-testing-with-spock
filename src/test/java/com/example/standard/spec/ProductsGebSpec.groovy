@@ -1,7 +1,7 @@
-package com.example.delivery.web.spec
+package com.example.standard.spec
 import com.example.Application
-import com.example.delivery.web.page.FormPage
-import com.example.delivery.web.page.ProductsPage
+import com.example.standard.page.FormPage
+import com.example.standard.page.ProductsPage
 import com.example.domain.Product
 import com.example.domain.ProductRepository
 import geb.driver.CachingDriverFactory

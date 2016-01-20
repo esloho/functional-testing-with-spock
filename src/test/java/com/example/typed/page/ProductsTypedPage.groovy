@@ -1,8 +1,8 @@
-package com.example.delivery.web.page
+package com.example.typed.page
 
 import geb.Page
 
-class ProductsPage extends Page {
+class ProductsTypedPage extends Page {
 
     static url = "http://localhost:8080/products"; // it is the same that having: url = "products"
 
@@ -10,8 +10,13 @@ class ProductsPage extends Page {
 
     static content = {
         heading { $("h1") }
-        new_product { $("#new-link") }
-        table_header { $("th") }
+        newProduct(to: FormTypedPage) { $("#new-link") }
+    }
+
+    FormTypedPage clickNewLink() {
+        newProduct.click()
+
+        return browser.page
     }
 
 }

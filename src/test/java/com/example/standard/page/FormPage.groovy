@@ -1,4 +1,4 @@
-package com.example.delivery.web.page
+package com.example.standard.page
 
 import geb.Page
 import geb.module.Select

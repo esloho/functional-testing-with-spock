@@ -1,11 +1,13 @@
 package com.example.domain
 import com.example.Application
 import org.springframework.boot.test.SpringApplicationConfiguration
+import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
 
 import javax.inject.Inject
 
 @SpringApplicationConfiguration(classes = Application.class)
+@Transactional
 class ProductRepositorySpec extends Specification {
 
     @Inject
@@ -21,8 +23,17 @@ class ProductRepositorySpec extends Specification {
         then: "number of stored products is 1"
         products.size() == 1;
 
-        cleanup:
-        repository.delete(newProduct);
+        //Cleanup phase can be substituted by the @Transactional Spring's annotation
+//      cleanup:
+//      repository.delete(newProduct);
+    }
+
+    def "checking rollback is working"() {
+        when:
+        final List<Product> products = repository.findAll();
+
+        then:
+        products.size() == 0;
     }
 
 }

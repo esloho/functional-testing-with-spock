@@ -1,4 +1,4 @@
-package com.example.delivery.web;
+package com.example.standard;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
