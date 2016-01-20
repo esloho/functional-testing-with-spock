@@ -1,6 +1,6 @@
-package com.example.standard.spec
+package com.example.functional.standard.spec
 import com.example.Application
-import com.example.standard.page.ProductsPage
+import com.example.functional.standard.page.ProductsPage
 import geb.Browser
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest

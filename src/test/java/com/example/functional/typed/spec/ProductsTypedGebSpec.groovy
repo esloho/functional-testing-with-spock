@@ -1,7 +1,7 @@
-package com.example.typed.spec
+package com.example.functional.typed.spec
 import com.example.Application
-import com.example.typed.page.FormTypedPage
-import com.example.typed.page.ProductsTypedPage
+import com.example.functional.typed.page.FormTypedPage
+import com.example.functional.typed.page.ProductsTypedPage
 import geb.driver.CachingDriverFactory
 import geb.spock.GebSpec
 import org.springframework.boot.test.SpringApplicationConfiguration

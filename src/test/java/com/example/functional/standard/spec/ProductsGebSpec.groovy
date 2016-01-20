@@ -1,7 +1,7 @@
-package com.example.standard.spec
+package com.example.functional.standard.spec
 import com.example.Application
-import com.example.standard.page.FormPage
-import com.example.standard.page.ProductsPage
+import com.example.functional.standard.page.FormPage
+import com.example.functional.standard.page.ProductsPage
 import com.example.domain.Product
 import com.example.domain.ProductRepository
 import geb.driver.CachingDriverFactory
@@ -29,8 +29,8 @@ class ProductsGebSpec extends GebSpec {
         at ProductsPage
 
         and: "table head has left aligning and 10px right padding"
-        table_header.css("text-align") == "left"
-        table_header.css("padding-right") == "10px"
+        tableHeader.css("text-align") == "left"
+        tableHeader.css("padding-right") == "10px"
 
         cleanup:
         repository.delete(newProduct);
@@ -42,7 +42,7 @@ class ProductsGebSpec extends GebSpec {
         to ProductsPage
 
         and: "click new product link"
-        new_product.click()
+        newProduct.click()
 
         then:
         at FormPage

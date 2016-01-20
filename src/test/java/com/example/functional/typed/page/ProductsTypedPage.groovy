@@ -1,10 +1,10 @@
-package com.example.typed.page
+package com.example.functional.typed.page
 
 import geb.Page
 
 class ProductsTypedPage extends Page {
 
-    static url = "http://localhost:8080/products"; // it is the same that having: url = "products"
+    static url = "/products"
 
     static at = {heading.text() == "Product List"}
 

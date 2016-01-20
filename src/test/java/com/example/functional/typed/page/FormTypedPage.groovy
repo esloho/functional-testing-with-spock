@@ -1,11 +1,11 @@
-package com.example.typed.page
+package com.example.functional.typed.page
 
 import geb.Page
 import geb.module.Select
 
 class FormTypedPage extends Page {
 
-    static url = "http://localhost:8080/new"
+    static url = "/new"
 
     static at = { heading.text() == "New Product" }
 
