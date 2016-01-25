@@ -1,5 +1,7 @@
 package com.example.functional.typed.spec
+
 import com.example.Application
+import com.example.domain.ProductRepository
 import com.example.functional.typed.page.FormTypedPage
 import com.example.functional.typed.page.ProductsTypedPage
 import geb.driver.CachingDriverFactory
@@ -7,9 +9,14 @@ import geb.spock.GebSpec
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
 
+import javax.inject.Inject
+
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest     //this allows the test to start the app instead of doing it manually before running the test
 class ProductsTypedGebSpec extends GebSpec {
+
+    @Inject
+    private ProductRepository repository;
 
     def "should go from products page to form"() {
         when:
@@ -20,6 +27,9 @@ class ProductsTypedGebSpec extends GebSpec {
     }
 
     def "should go from form to products if no errors"() {
+        given:
+        final int initialSize = repository.findAll().size()
+
         when: "go to the form page"
         final FormTypedPage formPage = to FormTypedPage
 
@@ -28,6 +38,9 @@ class ProductsTypedGebSpec extends GebSpec {
 
         then: "click the save button and should be at Products page"
         final ProductsTypedPage productsPage = formPage.clickSave()
+
+        and:
+        repository.findAll().size() == initialSize + 1
     }
 
     def "should go from form to products when cancel"() {
@@ -65,7 +78,7 @@ class ProductsTypedGebSpec extends GebSpec {
 
         then: "at FormPage with errors"
         final FormTypedPage newFormPage = formPage.clickSave()
-        newFormPage.mayNotBeEmptyError.present
+        newFormPage.hasMayNotBeEmptyErrors()
 
         cleanup:
         CachingDriverFactory.clearCache()

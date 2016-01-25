@@ -17,7 +17,7 @@ class FormTypedPage extends Page {
         amount { $("#amount") }
 
         save(to: [ProductsTypedPage, FormTypedPage]) { $("#save-button") }
-        cancel { $("#cancel-button") }
+        cancel(to: ProductsTypedPage) { $("#cancel-button") }
         reset(to: FormTypedPage) { $("#reset-button") }
 
         errors(required: false) { $(".error") }
@@ -37,7 +37,13 @@ class FormTypedPage extends Page {
     }
 
     boolean areFieldsEmpty() {
-        return (name.value() == "" || name.value() == null) && category.selected == "" && amount.value() == "0"
+        return ((name.value() == "" || name.value() == null)
+                && category.selected == ""
+                && amount.value() == "0")
+    }
+
+    boolean hasMayNotBeEmptyErrors() {
+        return mayNotBeEmptyError.present
     }
 
     Object clickSave() {
@@ -45,7 +51,7 @@ class FormTypedPage extends Page {
         return browser.page
     }
 
-    Object clickCancel() {
+    ProductsTypedPage clickCancel() {
         cancel.click()
         return browser.page
     }

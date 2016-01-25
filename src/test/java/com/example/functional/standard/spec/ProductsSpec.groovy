@@ -1,4 +1,5 @@
 package com.example.functional.standard.spec
+
 import com.example.Application
 import com.example.functional.standard.page.ProductsPage
 import geb.Browser
@@ -18,7 +19,7 @@ class ProductsSpec extends Specification {
         browser.to ProductsPage
 
         then:
-        browser.page.heading.text() == "Product List"
+        browser.at ProductsPage // same as: browser.page.heading.text() == "Product List"
     }
 
 }

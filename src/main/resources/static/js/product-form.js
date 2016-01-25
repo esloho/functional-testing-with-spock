@@ -6,7 +6,9 @@ $(function () {
 
     $cancelButton.click(function (event) {
         event.preventDefault();
-        parent.history.back();
+        $productForm.attr('action', '/products');
+        $productForm.attr('method', 'GET');
+        $productForm.submit();
     });
 
     $saveButton.click(function (event) {

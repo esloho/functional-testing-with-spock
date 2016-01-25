@@ -1,4 +1,5 @@
 package com.example.functional.standard.spec
+
 import com.example.Application
 import com.example.functional.standard.page.FormPage
 import com.example.functional.standard.page.ProductsPage
@@ -12,7 +13,7 @@ import org.springframework.boot.test.WebIntegrationTest
 import javax.inject.Inject
 
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest     //this allows the test to start the app instead of doing it manually before running the test
+@WebIntegrationTest     //these 2 annotations allows the test to start the app instead of doing it manually before running the test
 class ProductsGebSpec extends GebSpec {
 
     @Inject
@@ -49,6 +50,9 @@ class ProductsGebSpec extends GebSpec {
     }
 
     def "should go from form to products if no errors"() {
+        given:
+        final int initialSize = repository.findAll().size()
+
         when: "go to the form page"
         to FormPage
 
@@ -62,9 +66,15 @@ class ProductsGebSpec extends GebSpec {
 
         then:
         at ProductsPage
+
+        and:
+        repository.findAll().size() == initialSize + 1
     }
 
     def "should go from form to products when cancel"() {
+        given:
+        final int initialSize = repository.findAll().size()
+
         when: "go to ProductsPage"
         to ProductsPage
 
@@ -76,6 +86,9 @@ class ProductsGebSpec extends GebSpec {
 
         then: "back to the previous page"
         at ProductsPage
+
+        and:
+        repository.findAll().size() == initialSize
     }
 
     def "should clean the form when reset"() {
@@ -94,6 +107,9 @@ class ProductsGebSpec extends GebSpec {
     }
 
     def "should have errors in form when name is left empty"() {
+        given:
+        final int initialSize = repository.findAll().size()
+
         when: "going to FormPage"
         to FormPage
 
@@ -106,11 +122,17 @@ class ProductsGebSpec extends GebSpec {
         at FormPage
         mayNotBeEmptyError.present
 
+        and:
+        repository.findAll().size() == initialSize
+
         cleanup:
         CachingDriverFactory.clearCache()
     }
 
     def "should have errors in form when category is not selected"() {
+        given:
+        final int initialSize = repository.findAll().size()
+
         when: "go to FormPage"
         to FormPage
 
@@ -122,6 +144,9 @@ class ProductsGebSpec extends GebSpec {
         then: "at FormPage with errors"
         at FormPage
         mayNotBeEmptyError.present
+
+        and:
+        repository.findAll().size() == initialSize
 
         cleanup:
         CachingDriverFactory.clearCache()
