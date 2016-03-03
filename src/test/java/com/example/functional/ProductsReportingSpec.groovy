@@ -1,18 +1,17 @@
-package com.example.functional.standard.spec
+package com.example.functional
 
 import com.example.Application
-import com.example.functional.standard.page.FormPage
-import com.example.functional.standard.page.ProductsPage
+import com.example.content.FormPage
+import com.example.content.ProductsPage
 import geb.spock.GebReportingSpec
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.boot.test.WebIntegrationTest
-import spock.lang.Ignore
 
 @SpringApplicationConfiguration(classes = Application.class)
 @WebIntegrationTest
 class ProductsReportingSpec extends GebReportingSpec {
 
-    @Ignore
+//    @Ignore
     def "checking heading in products page - example of failure and reporting"() {
         when:
         to ProductsPage

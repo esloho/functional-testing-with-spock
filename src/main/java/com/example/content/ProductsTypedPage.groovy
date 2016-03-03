@@ -1,4 +1,4 @@
-package com.example.functional.typed.page
+package com.example.content
 
 import geb.Page
 
@@ -10,11 +10,11 @@ class ProductsTypedPage extends Page {
 
     static content = {
         heading { $("h1") }
-        newProduct(to: FormTypedPage) { $("#new-link") }
+        newButton(to: FormTypedPage) { $("#new-product") }
     }
 
-    FormTypedPage clickNewLink() {
-        newProduct.click()
+    FormTypedPage clickNewButton() {
+        newButton.click()
 
         return browser.page
     }

@@ -1,4 +1,4 @@
-package com.example.functional.typed.page
+package com.example.content
 
 import geb.Page
 import geb.module.Select

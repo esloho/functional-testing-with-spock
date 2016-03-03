@@ -1,4 +1,4 @@
-package com.example.functional.standard.page
+package com.example.content
 
 import geb.Page
 import geb.module.Select
@@ -16,13 +16,19 @@ class FormPage extends Page {
         category { $(name: "category").module(Select) }
         amount { $("#amount") }
 
-        save { $("#save-button") }
-        cancel { $("#cancel-button") }
-        reset { $("#reset-button") }
+        saveButton { $("#save-button") }
+        cancelButton { $("#cancel-button") }
+        resetButton { $("#reset-button") }
 
         errors(required: false) { $(".error") }
         mayNotBeEmptyError(required: false) {
             errors.filter(text: contains("may not be empty"))
         }
+    }
+
+    void fillForm (String productName, String productCaregory, int productAmount) {
+        name = productName
+        category.selected = productCaregory
+        amount = productAmount
     }
 }

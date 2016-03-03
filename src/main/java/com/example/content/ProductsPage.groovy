@@ -1,4 +1,4 @@
-package com.example.functional.standard.page
+package com.example.content
 
 import geb.Page
 
@@ -12,7 +12,7 @@ class ProductsPage extends Page {
         heading { $("h1") }
         tableHeader { $("th") }
 
-        newProduct { $("#new-link") }
+        newButton { $("#new-product") }
     }
 
 }

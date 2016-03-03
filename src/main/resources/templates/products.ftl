@@ -10,11 +10,6 @@
 <h1>Product List</h1>
 
 <div>
-    <#--<p class="label">-->
-        <#--<span>Name</span>-->
-        <#--<span>Available</span>-->
-    <#--</p>-->
-
     <#list products>
         <table>
             <thead>
@@ -42,7 +37,7 @@
 </div>
 
 <form action="/new" method="GET">
-    <input type="submit" id="new-link" value="New product">
+    <input type="submit" id="new-product" value="New product">
 </form>
 
 </body>

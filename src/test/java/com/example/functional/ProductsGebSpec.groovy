@@ -1,8 +1,8 @@
-package com.example.functional.standard.spec
+package com.example.functional
 
 import com.example.Application
-import com.example.functional.standard.page.FormPage
-import com.example.functional.standard.page.ProductsPage
+import com.example.content.FormPage
+import com.example.content.ProductsPage
 import com.example.domain.Product
 import com.example.domain.ProductRepository
 import geb.driver.CachingDriverFactory
@@ -13,15 +13,23 @@ import org.springframework.boot.test.WebIntegrationTest
 import javax.inject.Inject
 
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest     //these 2 annotations allows the test to start the app instead of doing it manually before running the test
+@WebIntegrationTest
 class ProductsGebSpec extends GebSpec {
 
     @Inject
     private ProductRepository repository;
 
+    def "should be at ProductsPage when navigating to it"() {
+        when:
+        to ProductsPage
+
+        then:
+        at ProductsPage
+    }
+
     def "should have a table head at products page"() {
-        given:
-        final newProduct = repository.save(new Product("Product 1", "Category", 10));
+        setup:
+        repository.save(new Product("Product 1", "Book", 10))
 
         when:
         to ProductsPage
@@ -32,63 +40,52 @@ class ProductsGebSpec extends GebSpec {
         and: "table head has left aligning and 10px right padding"
         tableHeader.css("text-align") == "left"
         tableHeader.css("padding-right") == "10px"
-
-        cleanup:
-        repository.delete(newProduct);
-
     }
 
     def "should go from products page to form"() {
         when:
         to ProductsPage
 
-        and: "click new product link"
-        newProduct.click()
+        and: "click new product"
+        newButton.click()
 
         then:
         at FormPage
     }
 
     def "should go from form to products if no errors"() {
-        given:
-        final int initialSize = repository.findAll().size()
-
         when: "go to the form page"
         to FormPage
 
         and: "fill all fields correctly"
-        name = "test product"
-        category.selected = "1"
-        amount = 10
-
-        and: "hit the save button"
-        save.click()
+        fillForm("dummy name", "Book", 10)
+        saveButton.click()
 
         then:
         at ProductsPage
 
         and:
-        repository.findAll().size() == initialSize + 1
+        repository.findAll().size() == old(repository.findAll().size()) + 1
     }
 
     def "should go from form to products when cancel"() {
-        given:
-        final int initialSize = repository.findAll().size()
-
         when: "go to ProductsPage"
         to ProductsPage
 
-        and: "go to FormPage"
-        to FormPage
+        and:
+        newButton.click()
 
-        and: "hit the cancel button"
-        cancel.click()
+        then:
+        at FormPage
 
-        then: "back to the previous page"
+        when:
+        cancelButton.click()
+
+        then: "it is back to the previous page"
         at ProductsPage
 
         and:
-        repository.findAll().size() == initialSize
+        repository.findAll().size() == old(repository.findAll().size())
     }
 
     def "should clean the form when reset"() {
@@ -96,10 +93,10 @@ class ProductsGebSpec extends GebSpec {
         to FormPage
 
         and: "fill the name"
-        name = "test"
+        name = "dummy name"
 
-        and: "reset the form"
-        reset.click()
+        and:
+        resetButton.click()
 
         then: "name is empty again"
         at FormPage
@@ -107,46 +104,38 @@ class ProductsGebSpec extends GebSpec {
     }
 
     def "should have errors in form when name is left empty"() {
-        given:
-        final int initialSize = repository.findAll().size()
-
         when: "going to FormPage"
         to FormPage
 
         and: "name field is left empty"
-        category.selected = "1"
-        amount = 10
-        save.click()
+        fillForm("", "Book", 10)
+        saveButton.click()
 
         then: "at FormPage with errors"
         at FormPage
         mayNotBeEmptyError.present
 
         and:
-        repository.findAll().size() == initialSize
+        repository.findAll().size() == old(repository.findAll().size())
 
         cleanup:
         CachingDriverFactory.clearCache()
     }
 
     def "should have errors in form when category is not selected"() {
-        given:
-        final int initialSize = repository.findAll().size()
-
         when: "go to FormPage"
         to FormPage
 
         and: "category field is not selected"
-        name = "test name"
-        amount = 10
-        save.click()
+        fillForm("dummy name", "", 10)
+        saveButton.click()
 
         then: "at FormPage with errors"
         at FormPage
         mayNotBeEmptyError.present
 
         and:
-        repository.findAll().size() == initialSize
+        repository.findAll().size() == old(repository.findAll().size())
 
         cleanup:
         CachingDriverFactory.clearCache()

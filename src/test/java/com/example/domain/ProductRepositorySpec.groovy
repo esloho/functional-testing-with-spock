@@ -3,32 +3,34 @@ import com.example.Application
 import org.springframework.boot.test.SpringApplicationConfiguration
 import org.springframework.transaction.annotation.Transactional
 import spock.lang.Specification
+import spock.lang.Stepwise
 
 import javax.inject.Inject
 
 @SpringApplicationConfiguration(classes = Application.class)
 @Transactional
+@Stepwise
 class ProductRepositorySpec extends Specification {
 
     @Inject
     private ProductRepository repository;
 
-    def "checking init data"() {
-        given: "a new element added to the empty repository"
-        final Product newProduct = repository.save(new Product("dummy title", "Book", 10));
+    def "should add a product in the repository"() {
+        given:
+        final Product newProduct = new Product("dummy title", "Book", 10);
 
-        when: "asking to find all products"
-        final List<Product> products = repository.findAll();
+        when: "a new element added to the empty repository"
+        repository.save(newProduct);
 
         then: "number of stored products is 1"
-        products.size() == 1;
+        repository.findAll().size() == 1;
 
         //Cleanup phase can be substituted by the @Transactional Spring's annotation
 //      cleanup:
 //      repository.delete(newProduct);
     }
 
-    def "checking rollback is working"() {
+    def "check rollback is working"() {
         when:
         final List<Product> products = repository.findAll();
 

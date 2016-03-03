@@ -1,9 +1,9 @@
-package com.example.functional.typed.spec
+package com.example.functional
 
 import com.example.Application
 import com.example.domain.ProductRepository
-import com.example.functional.typed.page.FormTypedPage
-import com.example.functional.typed.page.ProductsTypedPage
+import com.example.content.FormTypedPage
+import com.example.content.ProductsTypedPage
 import geb.driver.CachingDriverFactory
 import geb.spock.GebSpec
 import org.springframework.boot.test.SpringApplicationConfiguration
@@ -12,7 +12,7 @@ import org.springframework.boot.test.WebIntegrationTest
 import javax.inject.Inject
 
 @SpringApplicationConfiguration(classes = Application.class)
-@WebIntegrationTest     //this allows the test to start the app instead of doing it manually before running the test
+@WebIntegrationTest
 class ProductsTypedGebSpec extends GebSpec {
 
     @Inject
@@ -23,24 +23,21 @@ class ProductsTypedGebSpec extends GebSpec {
         final ProductsTypedPage productsPage = to ProductsTypedPage
 
         then: "click new product link"
-        final FormTypedPage formPage = productsPage.clickNewLink()
+        final FormTypedPage formPage = productsPage.clickNewButton()
     }
 
     def "should go from form to products if no errors"() {
-        given:
-        final int initialSize = repository.findAll().size()
-
         when: "go to the form page"
         final FormTypedPage formPage = to FormTypedPage
 
         and: "fill all fields correctly"
-        formPage.fillForm("test product", "1", 10)
+        formPage.fillForm("dummy name", "Book", 10)
 
         then: "click the save button and should be at Products page"
         final ProductsTypedPage productsPage = formPage.clickSave()
 
         and:
-        repository.findAll().size() == initialSize + 1
+        repository.findAll().size() == old(repository.findAll().size()) + 1
     }
 
     def "should go from form to products when cancel"() {
@@ -48,7 +45,7 @@ class ProductsTypedGebSpec extends GebSpec {
         final ProductsTypedPage productsPage = to ProductsTypedPage
 
         and: "go to FormPage"
-        final FormTypedPage formPage = productsPage.clickNewLink()
+        final FormTypedPage formPage = productsPage.clickNewButton()
 
         then: "click the cancel button and should be at ProductsPage"
         final ProductsTypedPage newProductsPage = formPage.clickCancel()
@@ -73,8 +70,7 @@ class ProductsTypedGebSpec extends GebSpec {
         final FormTypedPage formPage = to FormTypedPage
 
         and: "name field is left empty"
-        formPage.fillForm("", "1", 10)
-        save.click()
+        formPage.fillForm("", "Book", 10)
 
         then: "at FormPage with errors"
         final FormTypedPage newFormPage = formPage.clickSave()

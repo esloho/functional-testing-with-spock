@@ -39,7 +39,7 @@
 
         <p>
             <span class="label">Category: </span>
-            <#assign options = {"": " ", "1": "Book", "2": "Album", "3": "Movie" } />
+            <#assign options = {"": " ", "Book": "Book", "Album": "Album", "Movie": "Movie" } />
             <@spring.formSingleSelect "productForm.category", options, "" />
         </p>
     </div>
