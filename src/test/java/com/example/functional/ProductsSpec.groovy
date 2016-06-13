@@ -12,13 +12,13 @@ class ProductsSpec extends Specification {
 
     def "checking heading in products page"() {
         given:
-        final Browser browser = new Browser();
+            final Browser browser = new Browser();
 
         when:
-        browser.go("/products");
+            browser.go("/products");
 
         then:
-        browser.page.$("h1").text() == "Products List";
+            browser.page.$("h1").text() == "Product List";
     }
 
 }

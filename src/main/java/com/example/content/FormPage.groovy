@@ -30,5 +30,6 @@ class FormPage extends Page {
         name = productName
         category.selected = productCaregory
         amount = productAmount
+        saveButton.click()
     }
 }

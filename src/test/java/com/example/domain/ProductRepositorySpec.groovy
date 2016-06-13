@@ -16,14 +16,14 @@ class ProductRepositorySpec extends Specification {
     private ProductRepository repository;
 
     def "should add a product in the repository"() {
-        given:
-        final Product newProduct = new Product("dummy title", "Book", 10);
+        given: "a new product"
+            final Product newProduct = new Product("dummy title", "Book", 10);
 
-        when: "a new element added to the empty repository"
-        repository.save(newProduct);
+        when: "a the element is added to the empty repository"
+            repository.save(newProduct);
 
         then: "number of stored products is 1"
-        repository.findAll().size() == 1;
+            repository.findAll().size() == 1;
 
         //Cleanup phase can be substituted by the @Transactional Spring's annotation
 //      cleanup:
@@ -31,11 +31,11 @@ class ProductRepositorySpec extends Specification {
     }
 
     def "check rollback is working"() {
-        when:
-        final List<Product> products = repository.findAll();
+        when: "retrieving the existing products in the repo"
+            final List<Product> products = repository.findAll();
 
-        then:
-        products.size() == 0;
+        then: "the list (and thus the repo) is empty"
+            products.size() == 0;
     }
 
 }

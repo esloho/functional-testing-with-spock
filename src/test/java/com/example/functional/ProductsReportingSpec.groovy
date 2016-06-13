@@ -14,10 +14,10 @@ class ProductsReportingSpec extends GebReportingSpec {
 //    @Ignore
     def "checking heading in products page - example of failure and reporting"() {
         when:
-        to ProductsPage
+            to ProductsPage
 
         then:
-        at FormPage
+            at FormPage
     }
 
 }

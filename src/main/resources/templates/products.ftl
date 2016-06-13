@@ -10,7 +10,6 @@
 <h1>Product List</h1>
 
 <div>
-    <#list products>
         <table>
             <thead>
                 <tr>
@@ -21,19 +20,17 @@
             </thead>
             <tbody>
 
-            <#items as product>
+            <#list products as product>
                 <tr>
                     <td><span class="name">${product.name}</span></td>
                     <td><span class="category">${product.category}</span></td>
                     <td><span class="amount">${product.amount}</span></td>
                 </tr>
-            </#items>
-
+            <#else>
+                <p><span>There are no available products at this moment</span></p>
+            </#list>
             </tbody>
         </table>
-    <#else>
-        <p><span>There are no available products at this moment</span></p>
-    </#list>
 </div>
 
 <form action="/new" method="GET">
