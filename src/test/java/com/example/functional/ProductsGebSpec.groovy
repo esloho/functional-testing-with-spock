@@ -21,34 +21,37 @@ class ProductsGebSpec extends GebSpec {
 
     def "should be at ProductsPage when navigating to it"() {
         when:
-            to ProductsPage
+            go "/products"
 
         then:
-            at ProductsPage
+            $("h1").text() == "Product List"
+            $("thead")
     }
 
-    def "should have a table row for each products"() {
+    def "should be at ProductsPage when navigating to it - Page style"() {
+        expect:
+            to ProductsPage
+    }
+
+    def "should have a table row for each product"() {
         setup:
             repository.save(new Product("Product 1", "Book", 10))
 
-        when:
+        when: "go to the products list page"
             to ProductsPage
 
-        then:
-            at ProductsPage
-
-        and: "table shows one product"
+        then: "list shows one product"
             products.size() == 1
     }
 
     def "should go from products page to form"() {
-        when:
+        when: "go to the products list page"
             to ProductsPage
 
         and: "click new product"
             newButton.click()
 
-        then:
+        then: "navigate to the new product form page"
             at FormPage
     }
 
@@ -59,10 +62,10 @@ class ProductsGebSpec extends GebSpec {
         and: "fill all fields correctly"
             fillForm("dummy name", "Book", 10)
 
-        then:
+        then: "navigate to products page"
             at ProductsPage
 
-        and:
+        and: "a new element is stored in the repository"
             repository.findAll().size() == old(repository.findAll().size()) + 1
     }
 
@@ -70,33 +73,31 @@ class ProductsGebSpec extends GebSpec {
         when: "go to ProductsPage"
             to ProductsPage
 
-        and:
+        and: "click the new product button"
             newButton.click()
 
-        then:
+        then: "navigate to the form"
             at FormPage
 
-        when:
+        when: "click the cancel button"
             cancelButton.click()
 
         then: "it is back to the previous page"
             at ProductsPage
 
-        and:
+        and: "no elements were added to the repository"
             repository.findAll().size() == old(repository.findAll().size())
     }
 
     def "should clean the form when reset"() {
-        when:
+        when: "go to the new product form page"
             to FormPage
 
-        and: "fill the name"
+        and: "fill the name and reset the form"
             name = "dummy name"
-
-        and:
             resetButton.click()
 
-        then: "name is empty again"
+        then: "stay in the form page with name empty again"
             at FormPage
             name == ""
     }
@@ -108,14 +109,14 @@ class ProductsGebSpec extends GebSpec {
         and: "name field is left empty"
             fillForm("", "Book", 10)
 
-        then: "at FormPage with errors"
+        then: "stay at FormPage with errors"
             at FormPage
             mayNotBeEmptyError.present
 
-        and:
+        and: "no elements were added to the repository"
             repository.findAll().size() == old(repository.findAll().size())
 
-        cleanup:
+        cleanup: "force a new driver instance to be created next time"
             CachingDriverFactory.clearCache()
     }
 
@@ -130,10 +131,10 @@ class ProductsGebSpec extends GebSpec {
             at FormPage
             mayNotBeEmptyError.present
 
-        and:
+        and: "no elements were added to the repository"
             repository.findAll().size() == old(repository.findAll().size())
 
-        cleanup:
+        cleanup: "force a new browser instance to be created next time"
             CachingDriverFactory.clearCache()
     }
 

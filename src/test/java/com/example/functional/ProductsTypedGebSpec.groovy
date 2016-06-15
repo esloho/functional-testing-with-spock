@@ -22,7 +22,7 @@ class ProductsTypedGebSpec extends GebSpec {
         when:
             final ProductsTypedPage productsPage = to ProductsTypedPage
 
-        then: "click new product link"
+        then: "click new product link should redirect to FormPage"
             final FormTypedPage formPage = productsPage.clickNewButton()
     }
 
@@ -33,10 +33,10 @@ class ProductsTypedGebSpec extends GebSpec {
         and: "fill all fields correctly"
             formPage.fillForm("dummy name", "", 10)
 
-        then: "click the save button and should be at Products page"
+        then: "click the save button should lead to Products page"
             final ProductsTypedPage productsPage = formPage.clickSave()
 
-        and:
+        and: "a new product was added to the repo"
             repository.findAll().size() == old(repository.findAll().size()) + 1
     }
 
@@ -76,7 +76,7 @@ class ProductsTypedGebSpec extends GebSpec {
             final FormTypedPage newFormPage = formPage.clickSave()
             newFormPage.hasMayNotBeEmptyErrors()
 
-        cleanup:
+        cleanup: "force a new browser instance to be created next time"
             CachingDriverFactory.clearCache()
     }
 
