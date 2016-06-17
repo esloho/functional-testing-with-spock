@@ -31,7 +31,7 @@ class ProductsTypedGebSpec extends GebSpec {
             final FormTypedPage formPage = to FormTypedPage
 
         and: "fill all fields correctly"
-            formPage.fillForm("dummy name", "", 10)
+            formPage.fillForm("dummy name", "Book", 10)
 
         then: "click the save button should lead to Products page"
             final ProductsTypedPage productsPage = formPage.clickSave()

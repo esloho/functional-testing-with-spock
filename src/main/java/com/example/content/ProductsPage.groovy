@@ -8,7 +8,6 @@ class ProductsPage extends Page {
 
     static at = {
         heading.text() == "Product List"
-        tableHeader
     }
 
     static content = {
