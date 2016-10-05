@@ -16,7 +16,7 @@ import javax.inject.Inject
 class ProductsTypedGebSpec extends GebSpec {
 
     @Inject
-    private ProductRepository repository;
+    private ProductRepository repository
 
     def "should go from products page to form"() {
         when:
@@ -66,7 +66,7 @@ class ProductsTypedGebSpec extends GebSpec {
     }
 
     def "should have errors in form when name is left empty"() {
-        when: "going to FormPage"
+        when: "go to FormPage"
             final FormTypedPage formPage = to FormTypedPage
 
         and: "name field is left empty"

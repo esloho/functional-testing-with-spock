@@ -17,7 +17,7 @@ import javax.inject.Inject
 class ProductsGebSpec extends GebSpec {
 
     @Inject
-    private ProductRepository repository;
+    private ProductRepository repository
 
     def "should be at ProductsPage when navigating to it"() {
         when:
